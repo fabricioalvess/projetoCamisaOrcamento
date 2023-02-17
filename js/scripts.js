@@ -85,7 +85,7 @@ var parametros_pesquisa = {
 $(function(){
 
    function atualizar_orcamento(parametros){
-    $(".refresh-loader").show();
+    //$(".refresh-loader").show();
 
     
    var quantidade = parametros.quantidade;
