@@ -81,50 +81,67 @@ var parametros_pesquisa = {
 
 
 // Resolução do desafio:
-
+//inicia o codigo dentro da funcao ready logo a baixo
 $(function(){
-
+    //criado uma funcao atualizar orcamento  com um parametro chamado parametro
    function atualizar_orcamento(parametros){
+
+    //mostrar o refresh loader ao atualizar a pagina
     $(".refresh-loader").show();
 
-    
+   // atribuimos o paramentro com notacao ponto para pegar a quantidade e alocamos na variavel quantidade
    var quantidade = parametros.quantidade;
-   var preco_unit = camisetas[parametros.cor][parametros.gola][parametros.estampa].preco_unit;
-   var foto = "img/"+camisetas[parametros.cor][parametros.gola][parametros.estampa].foto;
+   //criou uma variavel preco unitario que recebe o objeto camisetas e o paramentro percorrerar ate encontrar a cor, a gola,e a estampa neste onjeto 
+   var preco_unit = camisetas[parametros.cor] [parametros.gola] [parametros.estampa].preco_unit;
+   //criou uma variavel foto  que recebe o caminho no objeto camisetas ate chegar ao valor foto
+   var foto = "img/"+ camisetas[parametros.cor][parametros.gola][parametros.estampa].foto;
 
+   //soma do valor total quantidade multiplicado por preco unitario
    var valor_total = quantidade * preco_unit;
-   
+   //atribuindo valores em cima dos detalhes exclusive do produto
+   //se a qualidade for igual ao material q190 o valor total sera multiplicado por 1.12%
    if(parametros.qualidade == "q190"){
-    valor_total *= 1.12
+    valor_total *= 1.12;
+    //se a embalagem for igual a unitaria adiciona 15 centavos ao valor total
    }
    if(parametros.embalagem == "unitaria"){
     valor_total += (quantidade * 0.15);
    }
+
+
+    //aplicando os descontos
+    //se a quantidade for maior ou igual a mil unidades , aplicar um desconto de 15%
     if(quantidade >= 1000){
         valor_total *= 0.85;
+    //se a quantidade for maior ou igual a quinhentas unidades , aplicar um desconto de 10%
     }else if(quantidade >= 500){
         valor_total *= 0.90;
+    //se a quantidade for maior ou igual a cem unidades , aplicar um desconto de 5%
     }else if(quantidade >=100){
         valor_total *= 0.95;
     }
 
-    console.log(valor_total)
+    $(".refresh-loader").hide();
+    console.log("parametros: ",parametros)
+    console.log("valor total: ",valor_total)
 
    }
 
-   atualizar_orcamento(parametros_pesquisa)
+   
+
+   $(".option-filter div").click(function(){
+
+    $(this).parent().children("div").removeClass("selected");
+    $(this).addClass("selected");
+
+    var categoria = $(this).parent().attr('id');
+    parametros_pesquisa[categoria] = $(this).attr("id");
+    atualizar_orcamento(parametros_pesquisa);
+
+
 });
-
-
-
-
-
-
-
-
-
-
-
+atualizar_orcamento(parametros_pesquisa);
+});
 
 
 
