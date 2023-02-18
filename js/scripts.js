@@ -149,6 +149,38 @@ $(function(){
 
    }
 
+   function atualizar_campos(parametros){
+    $("#cor").children().removeClass("selected");
+    var id_cor = "#"+ parametros.cor;
+    $(id_cor).addClass("selected");
+
+    $("#gola").children().removeClass("selected");
+    var id_gola = "#"+ parametros.gola;
+    $(id_gola).addClass("selected");
+
+    $("#qualidade").children().removeClass("selected");
+    var id_qualidade = "#"+ parametros.qualidade;
+    $(id_qualidade).addClass("selected");
+
+    $("#estampa").val(parametros.estampa);
+
+    $("#embalagem").val(parametros.embalagem);
+
+    $("#quantidade").val(parametros.qualidade);
+
+   }
+
+   function atualizar_locastorage(parametros){
+        window.localStorage.setItem("quantidade",parametros.quantidade);
+        window.localStorage.setItem("cor",parametros.cor);
+        window.localStorage.setItem("gola",parametros.gola);
+        window.localStorage.setItem("qualidade",parametros.qualidade);
+        window.localStorage.setItem("estampa",parametros.estampa);
+        window.localStorage.setItem("embalagem",parametros.embalagem);
+   }
+
+
+
    $(".option-filter div").click(function(){
 
     $(this).parent().children("div").removeClass("selected");
@@ -156,50 +188,49 @@ $(function(){
 
     var categoria = $(this).parent().attr('id');
     parametros_pesquisa[categoria] = $(this).attr("id");
+    atualizar_locastorage(parametros_pesquisa);
     atualizar_orcamento(parametros_pesquisa);
 });
 
 $("select").change(function(){
     var paramentro_select = $(this).attr('id');
     parametros_pesquisa[paramentro_select] = $(this).val();
+    atualizar_locastorage(parametros_pesquisa);
     atualizar_orcamento(parametros_pesquisa);
 })
 $("#quantidade").change(function(){
     var paramentro_input = $(this).attr('id');
     parametros_pesquisa[paramentro_input] = $(this).val();
+    atualizar_locastorage(parametros_pesquisa);
     atualizar_orcamento(parametros_pesquisa);
 })
 
+if(window.localStorage["quantidade"]){
+    parametros_pesquisa.quantidade = parseInt(window.localStorage["quantidade"]);
+};
 
+if(window.localStorage["cor"]){
+    parametros_pesquisa.cor = window.localStorage["cor"];
+};
+
+if(window.localStorage["gola"]){
+    parametros_pesquisa.gola= window.localStorage["gola"];
+};
+
+if(window.localStorage["qualidade"]){
+    parametros_pesquisa.qualidade = window.localStorage["qualidade"];
+};
+
+if(window.localStorage["estampa"]){
+    parametros_pesquisa.estampa = window.localStorage["estampa"];
+};
+if(window.localStorage["embalagem"]){
+    parametros_pesquisa.embalagem = window.localStorage["embalagem"];
+};
+
+atualizar_campos(parametros_pesquisa);
 atualizar_orcamento(parametros_pesquisa);
 });
 
 
 
-// Sugestão de etapas da resolução
-
-    // 1. Crie uma função para calcular o preço baseado nos parâmetros da variável "parametros_pesquisa" e solte o 
-    // valor no console para testar se está certo.
-
-    // 2. Faça os eventos click e change para os filtros.
-    
-        // a. Faça o evento click para os filtros do tipo botão (.option-filter). Sempre que houver um click, 
-        // remova a classe "selected" dos botões do grupo e depois aplique-a apenas ao que foi clicado para
-        // que ele fique azul.
-
-        // b. Faça o evento change para os filtros do tipo <select> e para o <input> de quantidade.
-
-        // c. Sempre que um dos eventos acima ocorrer, atualize a variável "parametros_pesquisa" e rode a função para 
-        // calcular o preço
-
-    
-    // 3. Altere a função do cálculo do preço. Em vez de soltar os valores no console, atualize as informações
-    // nos elementos "result_", atualize o preço no elemento "valor-total" e mude o atributo "src" do elemento 
-    // "foto-produto" para alterar a imagem mostrada (todas as imagens estão na pasta img).
-
-    // 4. Adicione a funcionalidade de hide e show do spinner (elemento "refresh-loader") à função de cálculo de preço. 
-    // Como não estamos consultando dados externos, o cálculo acaba sendo rápido demais, portanto use um setTimeout 
-    // para deixar ele aparecer por pelo menos 2 segundos.
-
-    // 5. Crie a funcionalidade do localStorage e ao carregar a página, consulte o localStorage, 
-    // atualize a variável "parametros_pesquisa" e rode a função de cálculo de preço
